@@ -5,6 +5,7 @@ import expressSession from "express-session";
 import cookieParser from "cookie-parser";
 import notFound from "./app/middlewares/notFound";
 import { router } from "./app/routes";
+import { globalError } from "./app/middlewares/globalErrorHandlers";
 // import "./app/config/passport";
 
 const app = express();
@@ -31,7 +32,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 // Global Error Handle 
-// app.use(globalError);
+app.use(globalError);
 // Not Found Route
 app.use(notFound);
 
