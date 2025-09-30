@@ -6,7 +6,6 @@ import cookieParser from "cookie-parser";
 import notFound from "./app/middlewares/notFound";
 import { router } from "./app/routes";
 import { globalError } from "./app/middlewares/globalErrorHandlers";
-// import "./app/config/passport";
 
 const app = express();
 app.use(express.json());
