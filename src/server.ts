@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import http, { Server } from "http";
+import { Server } from "http";
 import { envVars } from "./app/config/env";
 import app from "./app";
 import { prisma } from "./app/config/db";
@@ -24,7 +24,6 @@ async function connectDB() {
 const startServer = async () => {
     try {
         await connectDB();
-        server = http.createServer(app);
         server = app.listen(envVars.PORT, () => {
             console.log(`Server is running at port: ${envVars.PORT}`);
         });
