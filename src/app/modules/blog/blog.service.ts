@@ -3,6 +3,8 @@ import { prisma } from "../../config/db";
 
 
 const createBlog = async (userId: string, payload: Prisma.BlogCreateInput): Promise<Blog> => {
+    payload.slug = payload.title.toLowerCase().split(' ').join('-');
+
     const blog = await prisma.blog.create({
         data: {
             ...payload,
@@ -45,11 +47,11 @@ const getAllBlogs = async (page: number, limit: number) => {
     };
 };
 
-const getSingleBlog = async (title: string) => {
+const getSingleBlog = async (slug: string) => {
     return await prisma.$transaction(async (trx) => {
         // Increment views by 1
         await trx.blog.update({
-            where: { title },
+            where: { slug },
             data: {
                 views: {
                     increment: 1
@@ -68,14 +70,59 @@ const getSingleBlog = async (title: string) => {
                 }
             },
             where: {
-                title: title
+                slug: slug
             }
         });
     });
-}
+};
+
+const editSingleBlog = async (userId: number, slug: string, payload: Prisma.BlogCreateInput) => {
+
+    const blog = await prisma.blog.findUnique({
+        where: { slug: slug }
+    });
+
+    if (!blog) {
+        throw new Error('Blog not found');
+    }
+
+    if (blog.authorId !== userId) {
+        throw new Error('You are not authorized to edit this blog');
+    }
+
+    const updateBlog = await prisma.blog.update({
+        where: { id: blog.id },
+        data: payload
+    });
+
+    return updateBlog;
+};
+
+const deleteSingleBlog = async (userId: number, id: number) => {
+
+    const blog = await prisma.blog.findUnique({
+        where: { id: id }
+    });
+
+    if (!blog) {
+        throw new Error('Blog not found');
+    }
+
+    if (blog.authorId !== userId) {
+        throw new Error('You are not authorized to edit this blog');
+    }
+
+    const deleteBlog = await prisma.blog.delete({
+        where: { id: id }
+    });
+
+    return deleteBlog;
+};
 
 export const BlogService = {
     createBlog,
     getAllBlogs,
-    getSingleBlog
+    getSingleBlog,
+    editSingleBlog,
+    deleteSingleBlog,
 }

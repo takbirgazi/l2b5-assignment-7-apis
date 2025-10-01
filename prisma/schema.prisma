@@ -25,11 +25,13 @@ model User {
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   blogs     Blog[]
+  Project   Project[]
 }
 
 model Blog {
   id         Int      @id @default(autoincrement())
-  title      String   @unique
+  title      String
+  slug       String   @unique
   content    String
   thumbnail  String?
   isFeatured Boolean  @default(false)
@@ -39,6 +41,25 @@ model Blog {
   author     User     @relation(fields: [authorId], references: [id])
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+}
+
+model Project {
+  id             Int       @id @default(autoincrement())
+  name           String
+  slug           String    @unique
+  description    String
+  liveSiteUrl    String
+  frontendGitUrl String?
+  backendGitUrl  String?
+  thumbnail      String?
+  techStack      String[]
+  features       String[]
+  startDate      DateTime
+  authorId       Int
+  author         User      @relation(fields: [authorId], references: [id])
+  endDate        DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 }
 
 enum Role {
