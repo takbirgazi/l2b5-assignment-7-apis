@@ -45,7 +45,37 @@ const getAllBlogs = async (page: number, limit: number) => {
     };
 };
 
+const getSingleBlog = async (title: string) => {
+    return await prisma.$transaction(async (trx) => {
+        // Increment views by 1
+        await trx.blog.update({
+            where: { title },
+            data: {
+                views: {
+                    increment: 1
+                }
+            }
+        });
+
+        return await trx.blog.findUnique({
+            include: {
+                author: {
+                    select: {
+                        name: true,
+                        email: true,
+                        picture: true
+                    }
+                }
+            },
+            where: {
+                title: title
+            }
+        });
+    });
+}
+
 export const BlogService = {
     createBlog,
-    getAllBlogs
+    getAllBlogs,
+    getSingleBlog
 }

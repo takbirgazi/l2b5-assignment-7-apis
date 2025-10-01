@@ -29,14 +29,28 @@ const getAllBlogs = catchAsync(async (req: Request, res: Response) => {
     sendResponse(res, {
         success: true,
         statusCode: httpStatusCode.CREATED,
-        message: 'All blog retrieve successfully!',
+        message: 'All blogs retrieve successfully!',
         meta: result.meta,
         data: result.data
+    })
+});
+
+const getSingleBlog = catchAsync(async (req: Request, res: Response) => {
+    const title = req.params.title;
+
+    const result = await BlogService.getSingleBlog(title);
+
+    sendResponse(res, {
+        success: true,
+        statusCode: httpStatusCode.CREATED,
+        message: 'Blog retrieve successfully!',
+        data: result
     })
 });
 
 
 export const BlogController = {
     createBlog,
-    getAllBlogs
+    getAllBlogs,
+    getSingleBlog
 }
