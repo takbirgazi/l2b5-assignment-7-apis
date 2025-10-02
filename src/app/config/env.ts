@@ -7,7 +7,6 @@ interface EnvVariable {
     DATABASE_URL: string,
     NODE_ENV: "development" | "production",
     FRONTEND_URL: string,
-    BACKEND_URL: string,
     EXPRESS_SESSION_SECRET: string,
     SUPER_ADMIN_EMAIL: string,
     SUPER_ADMIN_PASSWORD: string,
@@ -19,7 +18,7 @@ interface EnvVariable {
 };
 
 const loadEnv = (): EnvVariable => {
-    const requireVar: string[] = ["PORT", "DATABASE_URL", "NODE_ENV", "FRONTEND_URL", "BACKEND_URL", "EXPRESS_SESSION_SECRET", "SUPER_ADMIN_EMAIL", "SUPER_ADMIN_PASSWORD", "BCRYPT_SALT_ROUND", "JWT_ACCESS_SECRET", "JWT_ACCESS_EXPIRES", "JWT_REFRESH_SECRET", "JWT_REFRESH_EXPIRES"];
+    const requireVar: string[] = ["PORT", "DATABASE_URL", "NODE_ENV", "FRONTEND_URL", "EXPRESS_SESSION_SECRET", "SUPER_ADMIN_EMAIL", "SUPER_ADMIN_PASSWORD", "BCRYPT_SALT_ROUND", "JWT_ACCESS_SECRET", "JWT_ACCESS_EXPIRES", "JWT_REFRESH_SECRET", "JWT_REFRESH_EXPIRES"];
 
     requireVar.forEach(key => {
         if (!process.env[key]) {
@@ -32,7 +31,6 @@ const loadEnv = (): EnvVariable => {
         DATABASE_URL: process.env.DATABASE_URL as string,
         NODE_ENV: process.env.NODE_ENV as "development" | "production",
         FRONTEND_URL: process.env.FRONTEND_URL as string,
-        BACKEND_URL: process.env.BACKEND_URL as string,
         EXPRESS_SESSION_SECRET: process.env.EXPRESS_SESSION_SECRET as string,
         SUPER_ADMIN_EMAIL: process.env.SUPER_ADMIN_EMAIL as string,
         SUPER_ADMIN_PASSWORD: process.env.SUPER_ADMIN_PASSWORD as string,
