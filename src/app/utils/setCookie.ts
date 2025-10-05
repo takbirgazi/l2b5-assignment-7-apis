@@ -11,7 +11,7 @@ export const setAuthCookie = (res: Response, tokenInfo: AuthTokens) => {
         res.cookie("accessToken", tokenInfo.accessToken, {
             httpOnly: true,
             secure: true,
-            sameSite: "none",
+            sameSite: 'lax',
             partitioned: true // For Google Chrome
         });
     }
@@ -19,7 +19,7 @@ export const setAuthCookie = (res: Response, tokenInfo: AuthTokens) => {
         res.cookie("refreshToken", tokenInfo.refreshToken, {
             httpOnly: true,
             secure: true,
-            sameSite: "none",
+            sameSite: 'lax',
             partitioned: true // For Google Chrome
         });
     }
